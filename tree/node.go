@@ -17,9 +17,14 @@ type TreeNode struct {
 // represents the item ID.  The function returns a pointer to the root node of the tree and a boolean indicating
 // whether the creation was successful.  It returns false if the input is invalid.  A valid input must contain
 // at least one record, and each record must contain at least one level and an item ID.
-func NewTreeNode(records [][]string) (*TreeNode, bool) {
+// For example:
+//
+// Input:
+// records := [][]string{{"Category 1", "Category 2", "item 1"}, {"Category 4", "item 3"}}
+// Output:
+func NewTreeNode(records [][]string) (TreeNode, bool) {
 	if len(records) == 0 {
-		return nil, false
+		return TreeNode{}, false
 	}
 	root := &TreeNode{Children: make(map[string]*TreeNode)}
 
@@ -36,9 +41,9 @@ func NewTreeNode(records [][]string) (*TreeNode, bool) {
 		}
 		current.Item = true
 	}
-	return root, true
+	return *root, true
 }
 
-func (t *TreeNode) ExportJson() ([]byte, error) {
+func (t TreeNode) ExportJson() ([]byte, error) {
 	return json.Marshal(t)
 }

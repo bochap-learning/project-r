@@ -1,6 +1,7 @@
 package tree
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -73,8 +74,8 @@ func TestInvalidNewTreeNode(t *testing.T) {
 			if ok {
 				t.Errorf("want ok: false, got ok: true")
 			}
-			if got != nil {
-				t.Errorf("want nil tree node, got tree node: %+v", got)
+			if !reflect.DeepEqual(got, TreeNode{}) {
+				t.Errorf("want empty tree node, got tree node: %+v", got)
 			}
 		})
 	}

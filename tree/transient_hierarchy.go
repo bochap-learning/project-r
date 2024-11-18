@@ -75,6 +75,14 @@ func retrieveValue(columns map[string]int, key string, fields []string) (string,
 // The function returns a slice of strings representing the extracted record and a boolean indicating success.
 // It returns false in the boolean if the data is invalid.  A valid record must contain "item_id" column,
 // and all columns must be valid.  The function also checks for schema and data column count parity.
+// The materialized slice allows the consuming code of this output to be able to ignore the complex logic to handle the different levels.
+// For example:
+//
+// Input:
+// columns := map[string]int{"level_1": 0, "level_2": 1, "item_id": 2}
+// data := "Category 1,Category 2,item 1\nCategory 4,,item 3\n"
+// Output:
+// [][]string{{"Category 1", "Category 2", "item 1"}, {"Category 4", "", "item 3"}}
 func extractRecord(columns map[string]int, data string) ([]string, bool) {
 	fields := strings.Split(data, ",")
 	if len(fields) <= 1 {
@@ -131,17 +139,17 @@ type TransientHierarchy struct {
 // NewTransientHierarchy creates a new TransientHierarchy from a bufio.Reader.  It reads the header from the reader,
 // validates the header, and returns a new TransientHierarchy object.  It returns an error if the header is invalid.
 // A valid header must contain "level_1" and "item_id" columns, and all columns must be valid.
-func NewTransientHierarchy(reader *bufio.Reader) (*TransientHierarchy, error) {
+func NewTransientHierarchy(reader *bufio.Reader) (TransientHierarchy, error) {
 	header, err := reader.ReadString('\n')
 	if err != nil {
-		return nil, err
+		return TransientHierarchy{}, err
 	}
 
 	columns, ok := generateSchemaColumns(header)
 	if !ok {
-		return nil, err
+		return TransientHierarchy{}, err
 	}
-	return &TransientHierarchy{reader: reader, columns: columns}, nil
+	return TransientHierarchy{reader: reader, columns: columns}, nil
 }
 
 // SynchronousExtract extracts all records from the CSV reader synchronously.  It reads each line from the reader,

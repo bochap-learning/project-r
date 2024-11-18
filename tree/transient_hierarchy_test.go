@@ -1,7 +1,9 @@
 package tree
 
 import (
+	"bufio"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -192,5 +194,57 @@ func TestInvalidExtractRecord(t *testing.T) {
 				t.Errorf("data: %+v, want record: nil, got record: %+v", testCase.data, got)
 			}
 		})
+	}
+}
+
+func TestValidSynchronousExtract(t *testing.T) {
+	want := [][]string{{"A", "C", "1"}, {"A", "C", "2"}, {"B", "6"}, {"B", "E", "5"}}
+	reader := bufio.NewReader(strings.NewReader(wellFormedPayload))
+	testTarget, _ := NewTransientHierarchy(reader)
+	got, err := testTarget.SynchronousExtract()
+	if err != nil {
+		t.Errorf("want error: nil, got error: %s", err)
+	}
+	sortBySliceOfSliceOfStrings(got)
+	if !reflect.DeepEqual(want, got) {
+		t.Errorf("want content: %+v, got content: %+v", want, got)
+	}
+}
+
+func TestInvalidSynchronousExtract(t *testing.T) {
+	reader := bufio.NewReader(strings.NewReader(illegalSkipLevelPayload))
+	testTarget, _ := NewTransientHierarchy(reader)
+	got, err := testTarget.SynchronousExtract()
+	if err == nil {
+		t.Errorf("want error, got nil")
+	}
+	if got != nil {
+		t.Errorf("want content: nil, got content: %+v", got)
+	}
+}
+
+func TestValidConcurrentExtract(t *testing.T) {
+	want := [][]string{{"A", "C", "1"}, {"A", "C", "2"}, {"B", "6"}, {"B", "E", "5"}}
+	reader := bufio.NewReader(strings.NewReader(wellFormedPayload))
+	testTarget, _ := NewTransientHierarchy(reader)
+	got, err := testTarget.ConcurrentExtract()
+	if err != nil {
+		t.Errorf("want error: nil, got error: %s", err)
+	}
+	sortBySliceOfSliceOfStrings(got)
+	if !reflect.DeepEqual(want, got) {
+		t.Errorf("want content: %+v, got content: %+v", want, got)
+	}
+}
+
+func TestInvalidConcurrentExtract(t *testing.T) {
+	reader := bufio.NewReader(strings.NewReader(illegalSkipLevelPayload))
+	testTarget, _ := NewTransientHierarchy(reader)
+	got, err := testTarget.ConcurrentExtract()
+	if err == nil {
+		t.Errorf("want error, got nil")
+	}
+	if got != nil {
+		t.Errorf("want content: nil, got content: %+v", got)
 	}
 }
