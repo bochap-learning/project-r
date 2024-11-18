@@ -69,20 +69,27 @@ func retrieveValue(columns map[string]int, key string, fields []string) (string,
 	return strings.TrimSpace(fields[index]), true
 }
 
-// extractRecord extracts a record from a data string based on the given schema columns.
-// It takes a map of column names to indices and a data string as input.
-// The data string is expected to be a comma-separated list of fields.
-// The function returns a slice of strings representing the extracted record and a boolean indicating success.
-// It returns false in the boolean if the data is invalid.  A valid record must contain "item_id" column,
-// and all columns must be valid.  The function also checks for schema and data column count parity.
-// The materialized slice allows the consuming code of this output to be able to ignore the complex logic to handle the different levels.
-// For example:
-//
-// Input:
-// columns := map[string]int{"level_1": 0, "level_2": 1, "item_id": 2}
-// data := "Category 1,Category 2,item 1\nCategory 4,,item 3\n"
-// Output:
-// [][]string{{"Category 1", "Category 2", "item 1"}, {"Category 4", "", "item 3"}}
+/*
+extractRecord extracts a record from a data string based on the given schema columns.
+It takes a map of column names to indices and a data string as input.
+The data string is expected to be a comma-separated list of fields.
+The function returns a slice of strings representing the extracted record and a boolean indicating success.
+It returns false in the boolean if the data is invalid.  A valid record must contain "item_id" column,
+and all columns must be valid.  The function also checks for schema and data column count parity.
+The materialized slice allows the consuming code of this output to be able to ignore the complex logic to handle the different levels.
+
+Usage:
+
+The following shows an example of an input and the output that is generated
+Input:
+
+	columns := map[string]int{"level_1": 0, "level_2": 1, "item_id": 2}
+	data := "Category 1,Category 2,item 1\nCategory 4,,item 3\n"
+
+Output:
+
+	[][]string{{"Category 1", "Category 2", "item 1"}, {"Category 4", "item 3"}}
+*/
 func extractRecord(columns map[string]int, data string) ([]string, bool) {
 	fields := strings.Split(data, ",")
 	if len(fields) <= 1 {

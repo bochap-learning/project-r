@@ -12,16 +12,48 @@ type TreeNode struct {
 	Children map[string]*TreeNode `json:"children,omitempty"`
 }
 
-// NewTreeNode creates a new TreeNode from a slice of slices of strings.  Each inner slice represents a record,
-// and each string in the inner slice represents a level in the hierarchy.  The last string in each inner slice
-// represents the item ID.  The function returns a pointer to the root node of the tree and a boolean indicating
-// whether the creation was successful.  It returns false if the input is invalid.  A valid input must contain
-// at least one record, and each record must contain at least one level and an item ID.
-// For example:
-//
-// Input:
-// records := [][]string{{"Category 1", "Category 2", "item 1"}, {"Category 4", "item 3"}}
-// Output:
+/*
+NewTreeNode creates a new TreeNode from a slice of slices of strings. Each inner slice represents a record,
+and each string in the inner slice represents a level in the hierarchy. The last string in each inner slice
+represents the item ID. This representation is actually abstracted since TreeNode just treats each slice as a level in the hierarchy.
+The function returns a pointer to the root node of the tree and a boolean indicating
+whether the creation was successful.  It returns false if the input is invalid. A valid input must contain
+at least one record, and each record must contain at least one level and an item ID.
+
+Usage:
+The following shows an example of an input and the output that is generated
+
+Input:
+
+	records := [][]string{{"Category 1", "Category 2", "item 1"}, {"Category 4", "item 3"}}
+
+Output:
+
+	{
+	    "children": {
+	        "Category 1": {
+	            "children": {
+					"Category 2": {
+						"children": {
+							"item 1": {
+								"item": true
+							}
+						}
+					}
+				}
+	        },
+			"Category 4": {
+	            "children": {
+					"children": {
+						"item 3": {
+							"item": true
+						}
+					}
+				}
+	        }
+	    }
+	}
+*/
 func NewTreeNode(records [][]string) (TreeNode, bool) {
 	if len(records) == 0 {
 		return TreeNode{}, false
