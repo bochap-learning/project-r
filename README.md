@@ -127,6 +127,11 @@ level_1,level_2,item_id
 
 [400]: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_Client_errors
 
+## Solution
+
+The details of the design and implementation of the code task can found in ["Code Task - Data Engineering API Endpoint"](code_task.md).
+
+
 # 2. Design task
 
 The design task is a discussion-based task. In preparation for it, please write down a few notes and share it with us beforehand. The notes are to be used as a basis for discussion - we find it easier to have a worthwhile discussion with the applicant if they jot something down beforehand as it allows us to prepare questions. The notes do not need to be comprehensive, they simply need to outline the answers to the questions.
@@ -146,7 +151,7 @@ For these three to be calculated the following inputs are required:
 
 We employ the [rolling origin](https://cran.r-project.org/web/packages/greybox/vignettes/ro.html) validation strategy when evaluating the performance of our models. It means that we train a sequence of models, iteratively extending the training set with more recent data, and moving the test set forward in time.
 
-![design-task-illustration](https://github.com/formulatehq/data-engineer/raw/master/design-task-illustration.png)
+![design-task-illustration](design-task-illustration.png)
 
 - On a high level, how would you design a data model/schema in a database, e.g. PostgreSQL or BigQuery, to support the above forecast validation?
 - How would you make sure that we can:

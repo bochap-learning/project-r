@@ -1,3 +1,3 @@
-module github.com/formulatehq/data-engineer
+module github.com/bochap-learning/r-project
 
-go 1.12
+go 1.23
