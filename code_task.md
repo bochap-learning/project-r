@@ -137,6 +137,18 @@ The API endpoint is designed with the following non-functional requirements in m
 
 This API endpoint is designed for efficiency, scalability, and maintainability, with a focus on fulfilling key non-functional requirements.
 
+![CSV to JSON Hierarchical Data Converter](doc/image/hierarchical-data-converter.gif)
+
+1. **Streaming:** The CSV file is read line by line as a continuous stream.
+2. **Schema Extraction:** The first line is interpreted as the header row, defining the column names for the data. Data types are not explicitly defined in this process.
+3. **Schema Handling:** The extracted schema information is passed back to the processing unit.
+4. **Data Extraction and Accumulation:** The remaining lines are processed, extracting data for each row based on the identified schema. This data is gathered in a temporary storage structure (a slice).
+5. **Materializing**    
+    1. **Hierarchical Transformation:** The accumulated data is transformed into a hierarchical structure, organizing the information based on relationships within the data.
+    2. **JSON Conversion:** The hierarchical structure is converted into JSON format for easy data exchange.
+    3. **API Response:** The JSON representation of the data is sent back to the API.
+6. **Client Delivery:** The API delivers the final JSON response to the user or application that originally requested the data.
+
 **Addressing Non-Functional Requirements:**
 
 * **Availability:**
