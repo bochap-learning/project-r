@@ -1,4 +1,4 @@
-package hierarchy
+package main
 
 import (
 	"encoding/json"
@@ -112,7 +112,6 @@ func Test(t *testing.T) {
 			if err := json.Unmarshal(b, &got); err != nil && test.WantStatusCode != http.StatusBadRequest {
 				t.Fatalf("could not unmarshal payload: %s", err)
 			}
-
 			if !reflect.DeepEqual(got, want) {
 				t.Errorf("got %v, want %v", got, test.Want)
 			}
