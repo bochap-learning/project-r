@@ -129,7 +129,7 @@ level_1,level_2,item_id
 
 ## Solution
 
-The details of the design and implementation of the code task can found in ["Code Task - Data Engineering API Endpoint"](code_task.md).
+The details of the design and implementation of the code task can found in ["Code Task: Data Engineering API Endpoint"](code_task.md).
 
 
 # 2. Design task
@@ -160,3 +160,7 @@ We employ the [rolling origin](https://cran.r-project.org/web/packages/greybox/v
 - How would you design a pipeline that allows for running parameterized validation?
 - Some features that act like an event log, like price, will need to be "gridded" to the relevant date. What method would you use to join it into the relevant time window?
 - Some features that are unknown in the future, like cost, will need to be filled in for future dates. What method would you use to _forward fill_ them into future time windows?
+
+## Solution
+
+The details of the design task can found in ["Design Task: Time-based Forecast Validation"](design_tasks.md).

@@ -134,7 +134,7 @@ The system relies on a robust data pipeline that incorporates three distinct dat
 
 #### System Architecture
 
-![High level system architecture](doc/image/high-level-system-architecture.png)
+![High level system architecture](doc/image/high-level-system-architecture.gif)
 
 ## References
 
